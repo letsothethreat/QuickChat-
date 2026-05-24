@@ -67,7 +67,7 @@ public class Login {
         //password
         message += "\nPASSWORD CHECK\n";
         if (Password.length() >=8) {
-            message +=n"[SUCCESSFUL] Password is at least 8 characters long\n";
+            message += "[SUCCESSFUL] Password is at least 8 characters long\n";
         }else {
             message += "[UNSUCCESSFUL] Password must be 8 characters long\n";
             allValid = false;
@@ -94,14 +94,92 @@ public class Login {
             message += "[unsuccessful] must be +27 followed by exactly 9 didgits (e.g. +27814356789\n";
             allValid = false;
         }
-    } 
-    message += "\n************************\n";
-    if (allValid) {
-        //Checks if username exist
-    if (userExist(username)) {
-        message += "REGISTRATION UNSUCCESSFUL. Username '" + username + "' already exist.\n";
-    } else 
-}
-}
+        message += "\n************************\n";
+        if (allValid) {
+            //Checks if username exist
+        if (userExist(username)) {
+            message += "REGISTRATION UNSUCCESSFUL. Username '" + username + "' already exist.\n";
+        } else {
+            SaveUser(username, Password, CellphoneNumber);
+            message += "REGISTRATION SUCCESSFUL! Welcome," + username + "!\n";
+        }
+        }else {
+            message += "REGISTRATION FAILED. Please fix the errors above. \n";
+               }
+        
+        message += "*************************\n";
+            System.out.println(message);
+        }
+        //Checks for saved users
+        public boolean loginUser() {
+            Scanner input = new Scanner(System.in);
+            System.out.println("\n*** Login ***");
+            
+            System.out.println("Enter Username: ");
+            String username = input.nextLine().trim();
+            
+            System.out.println("Enter password: ");
+            String Password = input.nextLine().trim();
+            
+            System.out.println("*************************\n");
+        if (checkCredentials(username, Password)) {
+            System.out.println("LOGIN SUCCESSFUL! Welcome back," + username + "!");
+            System.out.println("************************\n");
+            return true;
+        }else {
+            System.out.println("LOGIN UNSUCCESSFUL> Incorrect username or password.");
+            System.out.println("************************\n");
+            return false;
+        }
+        
+        }
+        //File helpers
+        /** Saves new users to the System */
+        private void SaveUser(String username, String Password, String CellphoneNumber) {
+            try(FileWriter fw = new FileWriter(USER_FILE, true);
+                    
+                    BufferedWriter bw = new BufferedWriter(fw)) {
+                bw.write(username + "," + Password + "," + CellphoneNumber);
+                
+                bw.newLine();
+            }catch (IOException e) {
+                System.out.println("[ERROR] Could not find user: " + e.getMessage());
+            }
+            }
+        /**Checks if user already Exist in the file */
+        private boolean userExist(String username) {
+            try (BufferedReader br = new BufferedReader(new FileReader(USER_FILE))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(",");
+            if(parts.length >= 1 && parts[0].equals(username)) {
+                
+            return true;
+            }
+                }
+            } catch (IOException e) {
+                
+            }
+            return false;
+        }
+        /**Compares username + password with already existing users*/
+        private boolean checkCredentials(String username, String Password) {
+            try (BufferedReader br = new BufferedReader(new FileReader(USER_FILE))){
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    if (parts.length >= 2
+                            && parts[0].equals(username)
+                            && parts[1].equals(Password)) {
+                        return true;
+                    }    
+                }
+            } catch(IOException e) {
+                System.out.println("[ERROR] Could not read user file: " + e.getMessage());
+            }
+            return false;
+        }
+
     
 }
+
