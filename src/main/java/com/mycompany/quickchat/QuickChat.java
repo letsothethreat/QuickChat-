@@ -21,6 +21,7 @@ public class QuickChat {
         System.out.println("2. Login");
         System.out.println("Choose an option(1 or 2):");
         
+        String choice = input.nextLine();
         boolean loggedIn = false;
         if (choice.equals("1")) {
             login.registerUser();
@@ -66,7 +67,7 @@ public class QuickChat {
                 System.out.println(lengthCheck);
                 if (messageText.length() > 250) continue;
                 
-                Messages msg = new Messages(recipient, messageText);
+//                Messages msg = new Messages(recipient, messageText);
                 
                 //Check recipient
                 System.out.println(msg.checkRecipientCell());
