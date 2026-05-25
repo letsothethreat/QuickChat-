@@ -73,5 +73,69 @@ public class Messages {
         String lastWord = words[words.length - 1].replaceAll("A-Za-z0-9", "").toUpperCase();
         return (firstTwo + ":" + numMessagesSent + ":" + firstWord + lastWord).toUpperCase();
     }
+    //String: SentMessage() allows user to choose send, store or disregard
+    public String SentMessage(int choice) {
+        switch (choice) {
+            case 1:
+                sentStatus = "sent";
+                sentMessages.add(this);
+                totalMessagesSent++;
+                return "Message successfully sent.";
+            case 2:
+                sentStatus = "disregarded";
+                return "Press 0 to delete the message";
+            case 3:
+                sentStatus = "stored";
+                storeMessage();
+                return "Message successfully stored.";
+            default:
+                return "Invalid option.";
+            
+        }
+    }
+    //String: printMessages() returns all sent messages
+    public static String printMessage() {
+        if (sentMessages.isEmpty()) {
+            return "No messages have been sent yet.";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Messages m: sentMessages) {
+            sb.append("Message ID:   ").append(m.getMessageID()).append("\n");
+            sb.append("Message Hash: ").append(m.getMessageHash()).append("\n");
+            sb.append("Recipient:    ").append(m.getRecipient()).append("\n");
+            sb.append("Message:      ").append(m.getMessageText()).append("\n");
+            sb.append("*************************\n");
+        }
+        return sb.toString();
+    }
     
+    //in: returnTotalMessages() displays totals number of messages sent
+    public static int returnTotalMessages(){
+        return totalMessagesSent;
+    }
+    //StoreMessage() stores message in JSON file (research component)
+    public void storeMessage() {
+        JSONObject msgOj = new JSONObject();
+        msgOj.put("MessageID",   messageID);
+        msgOj.put("MessageHash",   messageHash);
+        msgOj.put("Recipient",   recipient);
+        msgOj.put("Message",   messageText);
+        msgOj.put("NumMessageSent",   numMessagesSent);
+        
+        JSONArray msgArray = new JSONArray();
+        msgArray.add(msgObj);
+        
+        try (FileWriter file = new FileWriter ("stored_messages.json", true)) {
+            file.write(msgArray.toJSONString());
+            file.write("\n");
+        } catch (IOException e) {
+            System.out.println("Error storing message: " +e.getMessage());
+        }
+        
+    }
+    
+    //Static helper checks message length and returns appropriate feedback
+    public static String checkMessageLength(String message) {
+        if (messa)
+    }
 }
