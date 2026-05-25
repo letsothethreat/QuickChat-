@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class MessageTest {
     
-   //Test 1: Message elngth - succcess (under 250)
+   //Test 1: Message length - succcess (under 250)
     @Test
     public void testCheckMessageLengthSuccess() {
         String result = Messages.checkMessageLength("Hey Kokeletso, do you want to go out tonight?");

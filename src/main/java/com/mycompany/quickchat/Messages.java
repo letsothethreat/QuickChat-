@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.quickchat;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
 /*
  *
  * @author Student
@@ -39,7 +40,7 @@ public class Messages {
     
     //Getters
     public String getMessageID() { return messageID; }
-    public int getNameMessagesSent() {return numMessagesSent; }
+    public int getNumMessagesSent() {return numMessagesSent; }
     public String getRecipient() { return recipient; }
     public String getMessageText() { return messageText; }
     public String getMessageHash() { return messageHash; }
@@ -58,7 +59,7 @@ public class Messages {
     //String: CheckRecipientCellphone() makes sure that cellphone number is 10 characters and starts with '+'
     public String checkRecipientCellphone() {
         if (recipient.length() <= 12 && recipient.startsWith("+27")) {
-            return "Cellphone numbermsuccessfully captured.";
+            return "Cellphone number successfully captured.";
         } else {
             return "Cellphone number is incorrectly written or does not contain a South African"
                     + "international code. Please correct the number and try again.";
@@ -70,7 +71,7 @@ public class Messages {
         String firstTwo = messageID.substring(0, 2);
         String[] words = messageText.trim().split("\\s+");
         String firstWord = words[0].replaceAll("[^A-Za-z0-9]", "").toUpperCase();
-        String lastWord = words[words.length - 1].replaceAll("A-Za-z0-9", "").toUpperCase();
+        String lastWord = words[words.length - 1].replaceAll("[^A-Za-z0-9]", "").toUpperCase();
         return (firstTwo + ":" + numMessagesSent + ":" + firstWord + lastWord).toUpperCase();
     }
     //String: SentMessage() allows user to choose send, store or disregard
@@ -115,12 +116,12 @@ public class Messages {
     }
     //StoreMessage() stores message in JSON file (research component)
     public void storeMessage() {
-        JSONObject msgOj = new JSONObject();
-        msgOj.put("MessageID",   messageID);
-        msgOj.put("MessageHash",   messageHash);
-        msgOj.put("Recipient",   recipient);
-        msgOj.put("Message",   messageText);
-        msgOj.put("NumMessageSent",   numMessagesSent);
+        JSONObject msgObj = new JSONObject();
+        msgObj.put("MessageID",      messageID);
+        msgObj.put("MessageHash",   messageHash);
+        msgObj.put("Recipient",       recipient);
+        msgObj.put("Message",         messageText);
+        msgObj.put("NumMessageSent", numMessagesSent);
         
         JSONArray msgArray = new JSONArray();
         msgArray.add(msgObj);
@@ -136,6 +137,13 @@ public class Messages {
     
     //Static helper checks message length and returns appropriate feedback
     public static String checkMessageLength(String message) {
-        if (messa)
+        if (message.length() <= 250) {
+            return "Message ready to send.";
+        } else {
+            int excess = message.length() - 250;
+            return "Message exceeds 250 characters by " + excess + "; please reduce the size of your message.";
+        } 
     }
-}
+    }
+
+

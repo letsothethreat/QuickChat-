@@ -16,7 +16,7 @@ public class QuickChat {
         Scanner input = new Scanner(System.in);
         
         
-        System.out.println("*****Welcome to QuickChat*****");
+        System.out.println("*****QuickChat*****");
         System.out.println("1. Register");
         System.out.println("2. Login");
         System.out.println("Choose an option(1 or 2):");
@@ -39,7 +39,7 @@ public class QuickChat {
             
         }
         System.out.println("******\nWelcome to QuickChat.*****");
-        System.out.println("How many message would you like to send?");
+        System.out.println("How many messages would you like to send?");
         int numMessages = Integer.parseInt(input.nextLine().trim());
         
         int count = 0;
@@ -67,10 +67,10 @@ public class QuickChat {
                 System.out.println(lengthCheck);
                 if (messageText.length() > 250) continue;
                 
-//                Messages msg = new Messages(recipient, messageText);
+                Messages msg = new Messages(recipient, messageText);
                 
                 //Check recipient
-                System.out.println(msg.checkRecipientCell());
+                System.out.println(msg.checkRecipientCellphone());
                 
                 System.out.println("\n1) Send Message");
                 System.out.println("2) Disregard Message");
