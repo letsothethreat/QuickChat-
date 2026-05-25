@@ -65,5 +65,13 @@ public class Messages {
         }
     }
     
-    //String: createMessageHash() -         
+    //String: createMessageHash() -  firstTwoOfID:messageNumber:FIRSTWORDLASTWORD (all caps)
+    private String createMessageHash() {
+        String firstTwo = messageID.substring(0, 2);
+        String[] words = messageText.trim().split("\\s+");
+        String firstWord = words[0].replaceAll("[^A-Za-z0-9]", "").toUpperCase();
+        String lastWord = words[words.length - 1].replaceAll("A-Za-z0-9", "").toUpperCase();
+        return (firstTwo + ":" + numMessagesSent + ":" + firstWord + lastWord).toUpperCase();
+    }
+    
 }
